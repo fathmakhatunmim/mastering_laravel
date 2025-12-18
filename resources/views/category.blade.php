@@ -96,7 +96,15 @@
 
 
 <script>
+
+$.ajaxSetup({
+    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+});
+
+
+
 $(document).ready(function() {
+
     $('#food').DataTable({
         processing: true,
         serverSide: true,
@@ -110,6 +118,25 @@ $(document).ready(function() {
     { data: 'action', name: 'action', orderable: false, searchable: false }
 ]
 
+    });
+
+   $('body').on('click', '.deleteButton', function() {
+        var id = $(this).data('id');
+
+        if(confirm("Are you sure you want to delete this item?")) {
+            $.ajax({
+                url: '/foods/' + id, 
+                type: 'DELETE',
+                success: function(response) {
+                    alert(response.success);
+                    $('#row-' + id).remove();
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                    alert('Something went wrong!');
+                }
+            });
+        }
     });
 
 
@@ -144,8 +171,6 @@ $(document).ready(function() {
 
 
 
-
-    
 });
 
 

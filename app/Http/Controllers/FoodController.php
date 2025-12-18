@@ -100,8 +100,15 @@ public function index(Request $request)
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+  public function destroy($id)
+{
+    $food = Food::find($id);
+    if(!$food){
+        return response()->json(['error' => 'Food not found!'], 404);
     }
+
+    $food->delete();
+
+    return response()->json(['success' => 'Food deleted successfully!']);
+}
 }
