@@ -18,9 +18,13 @@ public function index(Request $request)
             ->addColumn('img', function($row){
                 return '<img src="/uploads/'.$row->img.'" width="50">';
             })
-            ->addColumn('action', function($row){
-                return '<button class="btn btn-sm btn-danger">Delete</button>';
-            })
+          ->addColumn('action', function($row){
+    return '<div class="d-flex gap-2">
+                <a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id="'.$row->id.'">Edit</a>
+                <a href="javascript:void(0)" class="btn btn-danger btn-sm deleteButton" data-id="'.$row->id.'">Delete</a>
+            </div>';
+})
+
             ->rawColumns(['img', 'action'])
             ->make(true);
     }

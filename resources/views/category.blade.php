@@ -52,8 +52,8 @@
 
 {{-- table --}}
 
-<div class="d-flex justify-content-center " style="height: 100vh;">
-    <div style="width: 70%;"> 
+<div class="d-flex justify-content-center " style="height: 200vh;">
+    <div style="width: 90;"> 
         <!-- width control -->
         <div class="mb-4 ">
  <button type="button" class="btn btn-success"
@@ -70,6 +70,7 @@
                     <th>Food Name</th>
                     <th>Description</th>
                     <th>Price</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -96,12 +97,6 @@
 
 <script>
 $(document).ready(function() {
- 
-    
-
-
-
-
     $('#food').DataTable({
         processing: true,
         serverSide: true,
