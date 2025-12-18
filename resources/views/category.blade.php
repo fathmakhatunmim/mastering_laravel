@@ -2,12 +2,6 @@
 
 @section('master_content')
 
-<div class="mb-3">
- <button type="button" class="btn btn-success"
-        data-toggle="modal"
-        data-target="#exampleModal">
-    Add order
-</button>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -19,12 +13,12 @@
 
       <div class="modal-body">
 
-     <form action="" method="POST" enctype="multipart/form-data">
+     <form action="{{route('food.store')}}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <!-- Image Upload -->
     <div class="input-group mb-3">
-        <input type="file" class="form-control" id="food_image" name="image">
+        <input type="file" class="form-control" id="food_image" name="image" accept=".jpg,.png,.jpeg">
         <label class="input-group-text" for="food_image">Upload</label>
     </div>
 
@@ -50,10 +44,93 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>
 </div>
+
+{{-- table --}}
+
+<div class="d-flex justify-content-center " style="height: 100vh;">
+    <div style="width: 70%;"> 
+        <!-- width control -->
+        <div class="mb-4 ">
+ <button type="button" class="btn btn-success"
+        data-toggle="modal"
+        data-target="#exampleModal">
+    Add order
+</button>
+</div>
+        <table class="table table-striped" id="food">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Food Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                             
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{-- datatable --}}
+
+
+
+
+
+<!-- DataTables JS (after jQuery!) -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+
+
+<script>
+$(document).ready(function() {
+ 
+    
+
+
+
+
+    $('#food').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{route('food.index')}}",
+      columns: [
+    { data: 'id', name: 'id' },
+    { data: 'img', name: 'image' },
+    { data: 'name', name: 'name' },
+    { data: 'description', name: 'description' },
+    { data: 'price', name: 'price' },
+    { data: 'action', name: 'action', orderable: false, searchable: false }
+]
+
+    });
+});
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
 
 @endsection

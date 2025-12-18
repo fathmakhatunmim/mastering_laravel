@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('food', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+      Schema::create('foods', function (Blueprint $table) {
+    $table->id();
+    $table->string('img')->nullable();
+    $table->string('name');
+    $table->text('description');
+    $table->integer('price');
+    $table->timestamps();
+});
+
     }
 
     /**

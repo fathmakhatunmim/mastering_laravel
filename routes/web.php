@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\FoodController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,3 +18,7 @@ Route::get('/dashboard', function () {
 Route::get('/category', function () {
     return view('category');
 });
+
+
+
+Route::resource('food',FoodController::class);
