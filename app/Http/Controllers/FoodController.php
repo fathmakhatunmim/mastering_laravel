@@ -28,7 +28,10 @@ public function index(Request $request)
             ->rawColumns(['img', 'action'])
             ->make(true);
     }
-    return view('category');
+    // return view('category');
+
+    $foods = Food::all();  // সব foods নিয়ে আসছি
+    return view('font.style', compact('foods'));
 }
 
     /**

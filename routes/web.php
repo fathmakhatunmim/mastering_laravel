@@ -11,6 +11,11 @@ Route::get('/login', function () {
     return view('login');
 });
 
+
+Route::get('/fontend', function () {
+    return view('font.style');
+});
+
 Route::get('/dashboard', function () {
     return view('layout.backend_master');
 });
