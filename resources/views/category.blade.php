@@ -13,6 +13,8 @@
 
       <div class="modal-body">
 
+         <input type="hidden"name="book_id" id="book_id">
+
      <form action="{{route('food.store')}}" method="POST" enctype="multipart/form-data">
     @csrf
 
@@ -120,6 +122,43 @@ $(document).ready(function() {
 
     });
 
+
+$('body').on('click', '.editButton', function () {
+
+    var id = $(this).data('id');
+
+    $.ajax({
+        url: "/foods/edit/" + id,
+        method: 'GET',
+
+        success: function (response) {
+
+            // form field এ data বসানোর example
+            $('#food_id').val(response.id);
+            $('#food_image').val(response.image);
+            $('#food_name').val(response.name);
+            $('#description').val(response.description);
+            $('#price').val(response.price);
+
+            // modal open (যদি modal থাকে)
+            $('#exampleModal').modal('show');
+        },
+
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            alert('Something went wrong!');
+        }
+    });
+
+});
+
+
+
+
+
+
+
+
    $('body').on('click', '.deleteButton', function() {
         var id = $(this).data('id');
 
@@ -127,6 +166,7 @@ $(document).ready(function() {
             $.ajax({
                 url: '/foods/' + id, 
                 type: 'DELETE',
+                
                 success: function(response) {
                     alert(response.success);
                     $('#row-' + id).remove();

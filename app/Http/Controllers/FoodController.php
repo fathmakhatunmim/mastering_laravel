@@ -45,33 +45,53 @@ public function index(Request $request)
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-          $request->validate([
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|integer|min:0',
-        ]);
+   
+public function store(Request $request)
+{
+    // Common validation
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'required|string',
+        'price' => 'required|integer|min:0',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
 
-        // File Upload
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time().'.'.$file->getClientOriginalExtension();
-            $file->move(public_path('uploads'), $filename);
+    // Image upload (for both create & update)
+    $filename = null;
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('uploads'), $filename);
+    }
+
+    // UPDATE
+    if ($request->book_id) {
+
+        $food = food::findOrFail($request->book_id);
+        if (!$food) {
+            abort(404);
         }
 
-        // Save to DB
-        food::create([
-            'img' => $filename ?? null,
+        $food->update([
+            'img' => $filename ?? $food->img,
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
         ]);
 
-        return redirect()->back()->with('success', 'Food added successfully!');
+        return redirect()->back()->with('success', 'Food updated successfully!');
     }
-    
+
+    // CREATE
+    food::create([
+        'img' => $filename,
+        'name' => $request->name,
+        'description' => $request->description,
+        'price' => $request->price,
+    ]);
+
+    return redirect()->back()->with('success', 'Food added successfully!');
+}
 
     /**
      * Display the specified resource.
@@ -84,10 +104,17 @@ public function index(Request $request)
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
+   public function edit($id)
+{
+    $food = food::find($id);
+
+    if(!$food){
+        abort(404);
     }
+
+    return response()->json($food); // JSON response
+}
+
 
     /**
      * Update the specified resource in storage.
