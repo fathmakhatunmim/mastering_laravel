@@ -16,8 +16,11 @@ public function index(Request $request)
         $data = Food::select('*');
         return DataTables::of($data)
             ->addColumn('img', function($row){
-                return '<img src="/uploads/'.$row->img.'" width="50">';
-            })
+    if ($row->img) {
+        return '<img src="'.asset('uploads/'.$row->img).'" width="50">';
+    }
+    return 'No Image';
+})
           ->addColumn('action', function($row){
     return '<div class="d-flex gap-2">
                 <a href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id="'.$row->id.'">Edit</a>
@@ -48,6 +51,28 @@ public function index(Request $request)
    
 public function store(Request $request)
 {
+
+       // UPDATE
+    if ($request->food_id) {
+
+        $food = food::find($request->food_id);
+        if (!$food) {
+            abort(404);
+        }
+
+        $food->update([
+            'img' => $filename ?? $food->img,
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+        ]);
+
+        return redirect()->back()->with('success', 'Food updated successfully!');
+    }
+
+  else{
+
+
     // Common validation
     $request->validate([
         'name' => 'required|string|max:255',
@@ -64,23 +89,6 @@ public function store(Request $request)
         $file->move(public_path('uploads'), $filename);
     }
 
-    // UPDATE
-    if ($request->book_id) {
-
-        $food = food::findOrFail($request->book_id);
-        if (!$food) {
-            abort(404);
-        }
-
-        $food->update([
-            'img' => $filename ?? $food->img,
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-        ]);
-
-        return redirect()->back()->with('success', 'Food updated successfully!');
-    }
 
     // CREATE
     food::create([
@@ -91,6 +99,9 @@ public function store(Request $request)
     ]);
 
     return redirect()->back()->with('success', 'Food added successfully!');
+
+  }
+
 }
 
     /**
@@ -106,13 +117,13 @@ public function store(Request $request)
      */
    public function edit($id)
 {
-    $food = food::find($id);
+    $foods = food::find($id);
 
-    if(!$food){
+    if(!$foods){
         abort(404);
     }
 
-    return response()->json($food); // JSON response
+    return response()->json($foods); // JSON response
 }
 
 
@@ -135,6 +146,9 @@ public function store(Request $request)
     }
 
     $food->delete();
+
+
+     
 
     return response()->json(['success' => 'Food deleted successfully!']);
 }

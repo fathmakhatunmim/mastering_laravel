@@ -29,5 +29,7 @@ Route::resource('food',FoodController::class);
 
 Route::delete('/foods/{id}', [FoodController::class, 'destroy'])->name('foods.destroy');
 
-Route::get('/foods/edit/{id}', [FoodController::class, 'edit']);
+Route::get('/foods/edit/{id}', [FoodController::class, 'edit'])
+     ->name('foods.edit');
+
 

@@ -13,11 +13,11 @@
 
       <div class="modal-body">
 
-         <input type="hidden"name="book_id" id="book_id">
+     
 
      <form action="{{route('food.store')}}" method="POST" enctype="multipart/form-data">
     @csrf
-
+    <input type="hidden"name="food_id" id="food_id">
     <!-- Image Upload -->
     <div class="input-group mb-3">
         <input type="file" class="form-control" id="food_image" name="image" accept=".jpg,.png,.jpeg">
@@ -123,19 +123,19 @@ $(document).ready(function() {
     });
 
 
-$('body').on('click', '.editButton', function () {
-
+$('body').on('click', '.editButton', function (e) {
+            e.preventDefault();
     var id = $(this).data('id');
 
     $.ajax({
-        url: "/foods/edit/" + id,
+       url: "{{ url('foods/edit') }}/" + id,
+
         method: 'GET',
 
         success: function (response) {
 
             // form field এ data বসানোর example
             $('#food_id').val(response.id);
-            $('#food_image').val(response.image);
             $('#food_name').val(response.name);
             $('#description').val(response.description);
             $('#price').val(response.price);
@@ -169,7 +169,7 @@ $('body').on('click', '.editButton', function () {
                 
                 success: function(response) {
                     alert(response.success);
-                    $('#row-' + id).remove();
+                     $('#food').DataTable().ajax.reload();
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
