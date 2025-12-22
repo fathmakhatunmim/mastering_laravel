@@ -7,7 +7,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">add book</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Food</h1>
         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
       </div>
 
@@ -23,6 +23,11 @@
         <input type="file" class="form-control" id="food_image" name="image" accept=".jpg,.png,.jpeg">
         <label class="input-group-text" for="food_image">Upload</label>
     </div>
+
+<!-- Image preview -->
+<img id="preview"
+     src=""
+     style="display:none; width:120px; height:120px; object-fit:cover; border:1px solid #ddd; margin-top:10px;">
 
     <!-- Food Name -->
     <div class="mb-3">
@@ -54,8 +59,9 @@
 
 {{-- table --}}
 
-<div class="d-flex justify-content-center " style="height: 200vh;">
-    <div style="width: 90;"> 
+<div class="d-flex justify-content-center " style="height: 300vh;">
+    <div style="width: 1200px;">
+
         <!-- width control -->
         <div class="mb-4 ">
  <button type="button" class="btn btn-success"
@@ -107,6 +113,73 @@ $.ajaxSetup({
 
 $(document).ready(function() {
 
+// image check korar jonno
+
+
+    $('#food_image').change(function () {
+
+        let file = this.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        // শুধু image কিনা check
+        if (!file.type.startsWith('image/')) {
+            alert('Please select a valid image file');
+            $(this).val('');
+            return;
+        }
+
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#preview')
+                .attr('src', e.target.result)
+                .show();
+        };
+
+        reader.readAsDataURL(file);
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $('#food').DataTable({
         processing: true,
         serverSide: true,
@@ -151,13 +224,6 @@ $('body').on('click', '.editButton', function (e) {
     });
 
 });
-
-
-
-
-
-
-
 
    $('body').on('click', '.deleteButton', function() {
         var id = $(this).data('id');

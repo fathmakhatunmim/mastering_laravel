@@ -413,6 +413,11 @@ a:focus {
   padding: 20px 15px;
   background-color: #222831;
   color: #ffffff;
+
+  
+
+
+
 }
 
 .offer_section .box .img-box {
@@ -511,6 +516,13 @@ a:focus {
   border-radius: 15px;
   overflow: hidden;
   background: linear-gradient(to bottom, #f1f2f3 25px, #222831 25px);
+   
+  /* ===== Add these lines ===== */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  /* image + detail-box + options spread */
+  height: 420px; /* সব card same height */
 }
 
 .food_section .box .img-box {
@@ -528,6 +540,10 @@ a:focus {
   border-radius: 0 0 0 45px;
   margin: -1px;
   padding: 25px;
+
+/* Center horizontally */
+  /* width: 100%; */
+
 }
 
 .food_section .box .img-box img {
@@ -539,6 +555,7 @@ a:focus {
 
 .food_section .box .detail-box {
   padding: 25px;
+flex-grow: 1; /* extra space fill করবে, সব card height same রাখবে */
 }
 
 .food_section .box .detail-box h5 {
@@ -1005,3 +1022,6 @@ a:focus {
   color: inherit;
 }
 /*# sourceMappingURL=style.css.map */
+
+
+/* mim edit */
