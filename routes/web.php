@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\reviewcontroller;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,7 +25,39 @@ Route::get('/category', function () {
     return view('category');
 });
 
+
+Route::get('/customerReview', function () {
+    return view('CustoReview');
+})->name('customer.review'); 
+
 Route::resource('food',FoodController::class);
+
+
+
+// // Food page + Reviews
+// Route::get('/food', [FoodController::class, 'Index']);
+
+// // Optional: Review CRUD or AJAX
+// Route::get('/review', [FoodController::class, 'reviewIndex']);
+
+// web.php
+// Route::post('/reviewStore', [FoodController::class, 'reviewStore'])->name('food.reviewStore');
+Route::get('/reviewEdit/{id}', [FoodController::class, 'reviewEdit'])->name('food.reviewEdit');
+
+Route::delete('/reviewDelete/{id}', [FoodController::class, 'reviewDestroy'])->name('food.reviewDelete');
+
+
+Route::post('/reviewStore', [FoodController::class, 'reviewStore'])->name('food.reviewStore');
+Route::get('/reviewData', [FoodController::class, 'reviewIndex'])->name('food.reviewData');
+
+
+
+
+
+
+
+
+Route::resource('review',reviewcontroller::class);
 
 
 Route::delete('/foods/{id}', [FoodController::class, 'destroy'])->name('foods.destroy');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\food;
+use App\Models\review;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -33,9 +34,78 @@ public function index(Request $request)
     }
     // return view('category');
 
-    $foods = Food::all();  // সব foods নিয়ে আসছি
-    return view('font.style', compact('foods'));
+$foods = Food::all();
+$reviews = review::all();
+return view('font.style', compact('foods','reviews'));
 }
+
+public function reviewIndex(Request $request){
+
+  if($request->ajax()){
+         $data= review::select('*');
+         return DataTables::of($data)
+         ->addColumn('img',function($row){
+          if($row->img){
+            return '<img src="'.asset('uploads/'.$row->img).'"width="50">';
+          }
+
+         })
+         ->addColumn('action',function($row){
+           return '<div class="d-flex gap-2">
+                 <a  href="javascript:void(0)" class="btn btn-info btn-sm editButton" data-id="'.$row->id.'" >Edit</a>
+                  <a  href="javascript:void(0)" class="btn btn-danger btn-sm deleteButton" data-id="'.$row->id.'" >Delete</a>          
+               </div>';
+
+         })
+         ->rawColumns(['img','action'])
+         ->make(true);
+
+
+        }
+       $reviews = review::all();
+       return view('font.style', compact('reviews'));
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -48,7 +118,67 @@ public function index(Request $request)
     /**
      * Store a newly created resource in storage.
      */
-   
+  public function reviewStore(Request $request)
+    {
+          
+    if($request->review_id){
+    $review = review::find($request->review_id);
+    if(!$review){
+        abort(404);
+    }
+
+    // Image handling
+    $imagename = $review->img; // default old image
+    if($request->hasFile('img')){
+        $file = $request->file('img');
+        $imagename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('uploads'), $imagename);
+    }
+
+    $review->update([
+        'comment' => $request->comment,
+        'name' => $request->name,
+        'city' => $request->city,
+        'img' => $imagename,  // এখানে $imagename ঠিকভাবে থাকবে
+    ]);
+ 
+        return redirect()->back()->with('success', 'review updated successfully!');
+
+        }
+        else{
+
+           $request->validate([
+            'comment'=> 'required',
+            'name'=>'required',
+            'city'=>'required',
+            'img'=>'nullable|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+
+     $imagename = null;
+
+if ($request->hasFile('img')) {
+    $file = $request->file('img');
+    $imagename = time() . '.' . $file->getClientOriginalExtension();
+    $file->move(public_path('uploads'), $imagename);
+}
+
+
+          review::create([
+            'comment'=>$request->comment,
+            'name'=>$request->name,
+            'city'=>$request->city,
+            'img'=>$imagename
+          ]); 
+
+        }
+
+        return redirect()->back()->with('suceess','food added succefully');
+
+
+
+    }
+ 
 public function store(Request $request)
 {
 
@@ -126,6 +256,15 @@ public function store(Request $request)
     return response()->json($foods); // JSON response
 }
 
+public function reviewEdit($id)
+{
+    $review = review::find($id);
+    if(!$review){
+        return response()->json(['error'=>'Review not found'], 404);
+    }
+    return response()->json($review);
+}
+
 
     /**
      * Update the specified resource in storage.
@@ -152,4 +291,30 @@ public function store(Request $request)
 
     return response()->json(['success' => 'Food deleted successfully!']);
 }
+
+  public function reviewDestroy($id)
+{
+    $review = review::find($id);
+    if(!$review){
+        return response()->json(['error' => 'review not found!'], 404);
+    }
+
+    $review->delete();
+
+
+    return response()->json(['success' => 'review deleted successfully!']);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -106,6 +106,14 @@
                     <span>Tables</span></a>
             </li>
 
+            <!-- customer reviwe -->
+            <<li class="nav-item">
+    <a class="nav-link" href="{{ route('customer.review') }}">
+        <i class="fas fa-fw fa-table"></i>
+        <span>Customer Review</span>
+    </a>
+</li>
+
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 

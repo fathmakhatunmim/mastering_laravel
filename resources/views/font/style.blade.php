@@ -566,55 +566,46 @@
   <!-- client section -->
 
   <section class="client_section layout_padding-bottom">
-    <div class="container">
-      <div class="heading_container heading_center psudo_white_primary mb_45">
-        <h2>
-          What Says Our Customers
-        </h2>
-      </div>
-      <div class="carousel-wrap row ">
-        <div class="owl-carousel client_owl-carousel">
-          <div class="item">
-            <div class="box">
-              <div class="detail-box">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-                </p>
-                <h6>
-                  Moana Michell
-                </h6>
-                <p>
-                  magna aliqua
-                </p>
-              </div>
-              <div class="img-box">
-                <img src="images/client1.jpg" alt="" class="box-img">
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="detail-box">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-                </p>
-                <h6>
-                  Mike Hamell
-                </h6>
-                <p>
-                  magna aliqua
-                </p>
-              </div>
-              {{-- <div class="img-box">
-                <img src="{{ asset('frontend/images/client2.jpg') }}" alt="" class="box-img">
+  <div class="container">
+    <div class="heading_container heading_center psudo_white_primary mb_45">
+      <h2>What Says Our Customers</h2>
+    </div>
 
-              </div> --}}
+    <div class="carousel-wrap row">
+      <div class="owl-carousel client_owl-carousel">
+
+        @foreach ($reviews as $review)
+        <div class="item">
+    <div class="box p-4 rounded shadow-sm bg-white">
+        <div class="detail-box d-flex align-items-center gap-4">
+            
+            {{-- Image --}}
+            <div class="review-img flex-shrink-0 gap-right-3">
+                @if($review->img)
+                    <img src="{{ asset('uploads/'.$review->img) }}" alt="{{ $review->name }}" class="rounded-circle" style="width:80px; height:80px; object-fit:cover;">
+                @else
+                    <img src="{{ asset('images/default.png') }}" alt="No Image" class="rounded-circle" style="width:80px; height:80px; object-fit:cover;">
+                @endif
             </div>
-          </div>
+            
+            {{-- Review Content --}}
+ <div class="review-content" style="margin-left:15px;">
+<p class="mb-2" style="font-size:14px; ">{{ $review->comment }}</p>
+<h6 class="mb-1" style="font-weight:600; color:#c5c0c0;">{{ $review->name }}</h6>
+<p class="mb-0" style="font-size:13px; color:#c6c3c3;">{{ $review->city }}</p>
+            </div>
+
         </div>
+    </div>
+</div>
+
+        @endforeach
+
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- end client section -->
 
