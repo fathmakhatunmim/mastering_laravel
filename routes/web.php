@@ -23,12 +23,18 @@ Route::get('/dashboard', function () {
 
 Route::get('/category', function () {
     return view('category');
-});
+})->name('category');
 
 
 Route::get('/customerReview', function () {
     return view('CustoReview');
 })->name('customer.review'); 
+
+Route::get('/customerOrder', function () {
+    return view('customerOrder');
+})->name('customer.order'); 
+
+
 
 Route::resource('food',FoodController::class);
 
@@ -48,8 +54,14 @@ Route::delete('/reviewDelete/{id}', [FoodController::class, 'reviewDestroy'])->n
 
 
 Route::post('/reviewStore', [FoodController::class, 'reviewStore'])->name('food.reviewStore');
+
+Route::post('/OrderStore', [FoodController::class, 'OrderStore'])->name('food.OrderStore');
+
+
+
 Route::get('/reviewData', [FoodController::class, 'reviewIndex'])->name('food.reviewData');
 
+Route::get('/OrderIndex', [FoodController::class, 'OrderIndex'])->name('food.OrderIndex');
 
 
 

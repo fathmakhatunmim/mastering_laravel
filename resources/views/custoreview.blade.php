@@ -213,14 +213,4 @@ $('body').on('click', '.deleteButton', function() {
 
 </script>
 
-
-
-
-
-
-
-
-
-
-
 @endsection

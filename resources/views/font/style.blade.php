@@ -48,14 +48,16 @@
               <li class="nav-item active">
                 <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
               </li>
+
               <li class="nav-item">
-                <a class="nav-link" href="menu.html">Menu</a>
+                <a class="nav-link" href="#menu">Menu</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#about">About</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about.html">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="book.html">Book Table</a>
+                <a class="nav-link" href="#book">Book Table</a>
               </li>
             </ul>
             <div class="user_option">
@@ -364,7 +366,7 @@
 
   <!-- food section -->
 
-  <section class="food_section layout_padding-bottom">
+  <section id="menu" class="food_section layout_padding-bottom">
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
@@ -469,7 +471,7 @@
 
   <!-- about section -->
 
-  <section class="about_section layout_padding">
+  <section id="about" class="about_section layout_padding">
     <div class="container  ">
 
       <div class="row">
@@ -503,7 +505,7 @@
   <!-- end about section -->
 
   <!-- book section -->
-  <section class="book_section layout_padding">
+  <section id="book"  class="book_section layout_padding">
     <div class="container">
       <div class="heading_container">
         <h2>
@@ -513,40 +515,57 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form_container">
-            <form action="">
+            <form action="{{route('food.OrderStore')}}" method="POST">
+                @csrf
               <div>
-                <input type="text" class="form-control" placeholder="Your Name" />
+                <input type="text" class="form-control" placeholder="Your Name" name="name" />
+            @if ($errors->has('name'))
+            <span class="text-danger">{{ $errors->first('name') }}</span>
+        @endif
+
               </div>
               <div>
-                <input type="text" class="form-control" placeholder="Phone Number" />
+                <input type="text" class="form-control" placeholder="Phone Number" name="pNumber"/>
+                 @if ($errors->has('pNumber'))
+            <span class="text-danger">{{ $errors->first('pNumber') }}</span>
+        @endif
               </div>
               <div>
-                <input type="email" class="form-control" placeholder="Your Email" />
+                <input type="email" class="form-control" placeholder="Your Email" name="email"/>
+                 @if ($errors->has('email'))
+            <span class="text-danger">{{ $errors->first('email') }}</span>
+        @endif
               </div>
               <div>
-                <select class="form-control nice-select wide">
+                <select name="person" class="form-control nice-select wide" >
                   <option value="" disabled selected>
                     How many persons?
                   </option>
-                  <option value="">
+                  <option value="2">
                     2
                   </option>
-                  <option value="">
+                  <option value="3">
                     3
                   </option>
-                  <option value="">
+                  <option value="4">
                     4
                   </option>
-                  <option value="">
+                  <option value="5">
                     5
                   </option>
                 </select>
+                @if ($errors->has('person'))
+            <span class="text-danger">{{ $errors->first('person') }}</span>
+        @endif
               </div>
               <div>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" name="date">
+                @if ($errors->has('date'))
+            <span class="text-danger">{{ $errors->first('date') }}</span>
+        @endif
               </div>
               <div class="btn_box">
-                <button>
+                <button type="submit">
                   Book Now
                 </button>
               </div>

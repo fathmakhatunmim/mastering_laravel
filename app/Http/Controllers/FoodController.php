@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\food;
 use App\Models\review;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -35,8 +36,9 @@ public function index(Request $request)
     // return view('category');
 
 $foods = Food::all();
+$orders = Order::all();
 $reviews = review::all();
-return view('font.style', compact('foods','reviews'));
+return view('font.style', compact('foods','reviews','orders'));
 }
 
 public function reviewIndex(Request $request){
@@ -305,7 +307,59 @@ public function reviewEdit($id)
     return response()->json(['success' => 'review deleted successfully!']);
 }
 
+// information 
 
+public function OrderStore(Request $request)
+{
+
+    $request->validate([
+    'name' => [
+    'required',
+    'string',
+    'min:2',
+    'max:100',
+    'regex:/^[a-zA-Z\s]+$/'
+]
+,
+    'pNumber' => 'required|string|max:15',
+
+ 'email' => [
+    'required', 
+     'email', 
+      'regex:/^[\w\.\-]+@gmail\.com$/'],
+
+    'person'  => 'required|integer|min:1',
+    'date'    => 'required|date',
+
+    ]);
+
+    order::create([
+      'name'=>$request->name,
+      'pNumber'=>$request->pNumber,
+      'email'=>$request->email,
+      'person'=>$request->person,
+      'date'=>$request->date
+
+    ]);
+
+ return redirect()->back()->with('success', 'record added successfully!');
+}
+
+
+
+public function OrderIndex(Request $request){
+
+  if($request->ajax()){
+         $data= Order::select('*');
+         return DataTables::of($data)
+         ->make(true);
+        }
+       $orders = order::all();
+       return view('font.style', compact('orders'));
+
+
+
+}
 
 
 
