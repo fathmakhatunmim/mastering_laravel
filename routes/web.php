@@ -39,6 +39,9 @@ Route::get('/customerOrder', function () {
 Route::resource('food',FoodController::class);
 
 
+Route::get('/food/{id}', [FoodController::class, 'show'])->name('food.details');
+
+
 
 // // Food page + Reviews
 // Route::get('/food', [FoodController::class, 'Index']);

@@ -239,10 +239,16 @@ public function store(Request $request)
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+ public function show($id)
+{
+    $food = Food::findOrFail($id);
+
+    // নিচে দেখানোর জন্য ছোট food গুলো
+//   $foods = Food::where('id', '!=', $id)->latest()->get();
+    // New (ascending by id)
+   $foods = Food::orderBy('id', 'asc')->get();
+    return view('food.details', compact('food', 'foods'));
+}
 
     /**
      * Show the form for editing the specified resource.
@@ -360,15 +366,5 @@ public function OrderIndex(Request $request){
 
 
 }
-
-
-
-
-
-
-
-
-
-
 
 }

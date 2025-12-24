@@ -1,0 +1,27 @@
+.big-food-card {
+    background-color: #fff; /* White background */
+    border-radius: 12px;    /* Rounded corners */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Soft shadow */
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.big-food-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.big-food-img {
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+h2 {
+    font-size: 28px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+}

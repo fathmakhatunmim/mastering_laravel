@@ -231,7 +231,7 @@
                 <h6>
                   <span>20%</span> Off
                 </h6>
-                <a href="">
+                <a href="#book">
                   Order Now <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                     <g>
                       <g>
@@ -300,7 +300,7 @@
                 <h6>
                   <span>15%</span> Off
                 </h6>
-                <a href="">
+                <a href="#book.html">
                   Order Now <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                     <g>
                       <g>
@@ -391,11 +391,16 @@
                     <div class="img-box">
                         <img src="{{ asset('uploads/'.$food->img) }}" alt="{{ $food->name }}">
                     </div>
-                    <div class="detail-box">
-                        <h5>{{ $food->name }}</h5>
-                        <p>{{ $food->description }}</p>
-                        <div class="options">
-                            <h6>${{ $food->price }}</h6>
+<a href="{{ route('food.details', $food->id) }}" style="text-decoration:none; color:inherit;">
+  <div class="detail-box">
+      <h5>{{ $food->name }}</h5>
+      <p>{{ $food->description }}</p>
+            
+      <div class="options">
+         
+      <h6>${{ $food->price }}</h6>
+        
+
                     <a href="">
                       <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                         <g>
